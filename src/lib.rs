@@ -25,10 +25,10 @@ use std::io::Result;
 /// Converter between string and multibyte encoding.
 pub trait Encoder {
     /// Convert from bytes to string.
-    fn to_string(self: &Self, data: &[u8]) -> Result<String>;
+    fn to_string(&self, data: &[u8]) -> Result<String>;
 
     /// Convert from string to bytes.
-    fn to_bytes(self: &Self, data: &str) -> Result<Vec<u8>>;
+    fn to_bytes(&self, data: &str) -> Result<Vec<u8>>;
 }
 
 /// Text convertation encoding.
@@ -41,16 +41,16 @@ pub enum Encoding {
 
 #[cfg(windows)]
 trait CodePage {
-    fn codepage(self: &Self) -> u32;
+    fn codepage(&self) -> u32;
 }
 
 #[cfg(windows)]
 impl CodePage for Encoding {
-    fn codepage(self: &Self) -> u32 {
+    fn codepage(&self) -> u32 {
 
         match self {
-            &Encoding::ANSI => winapi::um::winnls::CP_ACP,
-            &Encoding::OEM => winapi::um::winnls::CP_OEMCP,
+            Encoding::ANSI => winapi::um::winnls::CP_ACP,
+            Encoding::OEM => winapi::um::winnls::CP_OEMCP,
         }
     }
 }
@@ -58,12 +58,12 @@ impl CodePage for Encoding {
 #[cfg(windows)]
 impl Encoder for Encoding {
     /// Convert from bytes to string.
-    fn to_string(self: &Self, data: &[u8]) -> Result<String> {
+    fn to_string(&self, data: &[u8]) -> Result<String> {
         windows::EncoderCodePage(self.codepage()).to_string(data)
 
     }
     /// Convert from bytes to string.
-    fn to_bytes(self: &Self, data: &str) -> Result<Vec<u8>> {
+    fn to_bytes(&self, data: &str) -> Result<Vec<u8>> {
         windows::EncoderCodePage(self.codepage()).to_bytes(data)
     }
 }

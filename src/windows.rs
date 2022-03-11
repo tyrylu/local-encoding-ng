@@ -40,12 +40,12 @@ pub struct EncoderCodePage(pub u32);
 
 impl Encoder for EncoderCodePage {
     ///     Convert from bytes to string.
-    fn to_string(self: &Self, data: &[u8]) -> Result<String> {
+    fn to_string(&self, data: &[u8]) -> Result<String> {
         multi_byte_to_wide_char(self.0, MB_ERR_INVALID_CHARS, data)
     }
 
     /// Convert from string to bytes.
-    fn to_bytes(self: &Self, data: &str) -> Result<Vec<u8>> {
+    fn to_bytes(&self, data: &str) -> Result<Vec<u8>> {
         string_to_multibyte(self.0, data, None)
     }
 }
@@ -87,7 +87,7 @@ pub fn multi_byte_to_wide_char(codepage: DWORD,
                                multi_byte_str: &[u8])
                                -> Result<String> {
     // Empty string
-    if multi_byte_str.len() == 0 {
+    if multi_byte_str.is_empty() {
         return Ok(String::new());
     }
     unsafe {
@@ -129,7 +129,7 @@ pub fn wide_char_to_multi_byte(codepage: DWORD,
                                use_default_char_flag: bool)
                                -> Result<(Vec<u8>, bool)> {
     // Empty string
-    if wide_char_str.len() == 0 {
+    if wide_char_str.is_empty() {
         return Ok((Vec::new(), false));
     }
     unsafe {
