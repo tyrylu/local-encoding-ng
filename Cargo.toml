@@ -3,19 +3,9 @@ name = "local-encoding-ng"
 license = "MIT"
 version = "0.1.0"
 authors = [ "Lukáš Tyrychtr <lukastyrychtr@gmail.com>" ]
-build = "src/build.rs"
 description = "A rust library which simplifies the encoding and decoding from the local Windows Ansi codepage."
 repository = "https://github.com/tyrylu/local-encoding-rs-ng"
 edition = "2018"
 
-[dependencies]
-
 [target.'cfg(windows)'.dependencies]
 winapi = { version = "0.3.9", features = ["winnls", "stringapiset"] }
-
-
-[dev-dependencies]
-skeptic = "0.13.7"
-
-[build-dependencies]
-skeptic = "0.13.7"
