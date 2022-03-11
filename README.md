@@ -1,28 +1,20 @@
-local-encoding
+local-encoding-ng
 ====
 
-[![Join the chat at https://gitter.im/bozaro/local-encoding-rs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bozaro/local-encoding-rs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.org/bozaro/local-encoding-rs.svg?branch=master)](https://travis-ci.org/bozaro/local-encoding-rs)
-[![Crates.io](https://img.shields.io/crates/v/local-encoding.svg)](https://crates.io/crates/local-encoding)
+[![Crates.io](https://img.shields.io/crates/v/local-encoding-ng.svg)](https://crates.io/crates/local-encoding-ng)
 
-This repository contains rust library for encoding/decoding string with local charset. It usefull for work with ANSI strings on Windows.
-
-Unfortunately Windows widly use 8-bit character encoding instead UTF-8. This causes a lot of pain.
+This is local-encoding-ng, a library which wastly simplifies dealing with the unfamous Windows 8-bit encodings.
 
 For example, in Russian version:
 
- * [`CP-1251`](https://en.wikipedia.org/wiki/Windows-1251) (ANSI codepage) used for 8-bit files;
- * [`CP-866`](https://en.wikipedia.org/wiki/Code_page_866) (OEM codepage) used for console output.
+ * [`CP-1251`](https://en.wikipedia.org/wiki/Windows-1251) (ANSI codepage) is used for 8-bit files;
+ * [`CP-866`](https://en.wikipedia.org/wiki/Code_page_866) (OEM codepage) is used for console output.
 
-To convert between 8-bit and Unicode used Windows have function:
+Windows have functions which help in these conversions:
 [`MultiByteToWideChar`](https://msdn.microsoft.com/en-us/library/windows/desktop/dd319072%28v=vs.85%29.aspx) and 
 [`WideCharToMultiByte`](https://msdn.microsoft.com/en-us/library/windows/desktop/dd374130%28v=vs.85%29.aspx).
 
-This library provide simple function to convert between 8-bit and Unicode characters on Windows.
-
-UTF-8 used as 8-bit codepage for non-Windows system.
-
-Rustdoc: https://bozaro.github.io/local-encoding-rs/local_encoding/
+This library provides a simple API for these functions.
 
 ## Usage
 
@@ -30,14 +22,14 @@ Put this in your `Cargo.toml`:
 
 ```toml
 [dependencies]
-local-encoding = "*"
+local-encoding-ng = "*"
 ```
+
+Or, better, use cargo-edit to add it with a correct version and use it to keep the version up-to-date.
 
 For example:
 ```rust
-extern crate local_encoding;
-
-use local_encoding::{Encoding, Encoder};
+use local_encoding_ng::{Encoding, Encoder};
 
 fn main()
 {

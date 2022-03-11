@@ -47,11 +47,10 @@ trait CodePage {
 #[cfg(windows)]
 impl CodePage for Encoding {
     fn codepage(self: &Self) -> u32 {
-        extern crate winapi;
 
         match self {
-            &Encoding::ANSI => winapi::CP_ACP,
-            &Encoding::OEM => winapi::CP_OEMCP,
+            &Encoding::ANSI => winapi::um::winnls::CP_ACP,
+            &Encoding::OEM => winapi::um::winnls::CP_OEMCP,
         }
     }
 }
