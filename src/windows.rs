@@ -111,7 +111,6 @@ pub fn multi_byte_to_wide_char(
         if len > 0 {
             // Convert to UTF-16
             let mut wstr: Vec<u16> = Vec::with_capacity(len as usize);
-            wstr.set_len(len as usize);
             let len = MultiByteToWideChar(
                 codepage,
                 flags,
@@ -120,8 +119,9 @@ pub fn multi_byte_to_wide_char(
                 wstr.as_mut_ptr(),
                 len,
             );
+            wstr.set_len(len as usize);
             if len > 0 {
-                return String::from_utf16(&wstr[0..(len as usize)])
+                return String::from_utf16(&wstr)
                     .map_err(|e| Error::new(ErrorKind::InvalidInput, e));
             }
         }
@@ -160,7 +160,6 @@ pub fn wide_char_to_multi_byte(
         if len > 0 {
             // Convert from UTF-16 to multibyte
             let mut astr: Vec<u8> = Vec::with_capacity(len as usize);
-            astr.set_len(len as usize);
             let default_char_ref: [i8; 1] = match default_char {
                 Some(c) => [c as i8],
                 None => [0],
@@ -182,11 +181,12 @@ pub fn wide_char_to_multi_byte(
                     false => ptr::null_mut(),
                 },
             );
-            if (len as usize) == astr.len() {
+            astr.set_len(len as usize);
+            if astr.len() == astr.capacity() {
                 return Ok((astr, use_char_ref[0] != 0));
             }
-            if len > 0 {
-                return Ok((astr[0..(len as usize)].to_vec(), use_char_ref[0] != 0));
+            if !astr.is_empty() {
+                return Ok((astr.to_vec(), use_char_ref[0] != 0));
             }
         }
         Err(Error::last_os_error())
