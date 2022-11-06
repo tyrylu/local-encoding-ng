@@ -69,11 +69,11 @@ impl Encoder for Encoding {
 #[cfg(not(windows))]
 impl Encoder for Encoding {
     /// Convert from bytes to string.
-    fn to_string(self: &Self, data: &[u8]) -> Result<String> {
+    fn to_string(&self, data: &[u8]) -> Result<String> {
         posix::EncoderUtf8.to_string(data)
     }
     /// Convert from bytes to string.
-    fn to_bytes(self: &Self, data: &str) -> Result<Vec<u8>> {
+    fn to_bytes(&self, data: &str) -> Result<Vec<u8>> {
         posix::EncoderUtf8.to_bytes(data)
     }
 }
