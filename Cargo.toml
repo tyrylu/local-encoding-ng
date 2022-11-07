@@ -8,4 +8,4 @@ repository = "https://github.com/tyrylu/local-encoding-rs-ng"
 edition = "2018"
 
 [target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3.9", features = ["winnls", "stringapiset"] }
+winapi = { version = "0.3", features = ["winnls", "stringapiset"] }
